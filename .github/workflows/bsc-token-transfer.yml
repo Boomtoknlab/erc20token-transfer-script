@@ -1,0 +1,29 @@
+name: BSC Token Transfer
+
+on:
+  workflow_dispatch:  # Manual trigger
+  schedule:
+    - cron: "0 12 * * *"  # Runs every day at 12 PM UTC
+
+jobs:
+  transfer-bsc-token:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run BSC token transfer script
+        env:
+          PRIVATE_KEY: ${{ secrets.BSC_PRIVATE_KEY }}
+          RPC_URL: ${{ secrets.BSC_RPC_URL }}
+          RECIPIENT_ADDRESS: ${{ secrets.RECIPIENT_ADDRESS }}
+          TOKEN_ADDRESS: ${{ secrets.TOKEN_ADDRESS }}
+        run: python scripts/transfer.py
