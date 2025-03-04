@@ -1,0 +1,30 @@
+name: Automated Multi-Token Transfer
+
+on:
+  schedule:
+    - cron: "0 12 * * *"  # Runs daily at 12:00 UTC
+  workflow_dispatch: # Allows manual execution
+
+jobs:
+  transfer:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Set Up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Install Dependencies
+        run: pip install web3
+
+      - name: Execute Transfer Script
+        env:
+          RPC_URL: ${{ secrets.RPC_URL }}
+          PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
+          TOKEN_ADDRESSES: ${{ secrets.TOKEN_ADDRESSES }}
+          RECIPIENT_ADDRESSES: ${{ secrets.RECIPIENT_ADDRESSES }}
+          TRANSFER_AMOUNTS: ${{ secrets.TRANSFER_AMOUNTS }}
+        run: python transfer.py
