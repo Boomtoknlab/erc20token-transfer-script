@@ -1,0 +1,20 @@
+name: Call QuickNode API
+
+on:
+  push:
+    branches:
+      - main  # Triggers when code is pushed to the main branch
+
+jobs:
+  call-quicknode:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Call QuickNode API
+        run: |
+          curl -X POST "https://api.quicknode.com/functions/rest/v1/functions/cc3a4a91-72d2-4f5d-bb9d-d25b5e0377b5/call" \
+          -H "Content-Type: application/json" \
+          -d '{"data": "your_payload_here"}'
