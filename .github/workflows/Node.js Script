@@ -1,14 +1,7 @@
-const fetch = require("node-fetch");
-
-async function callQuickNode() {
-  const response = await fetch("https://api.quicknode.com/functions/rest/v1/functions/cc3a4a91-72d2-4f5d-bb9d-d25b5e0377b5/call", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ /* your payload */ })
-  });
-
-  const data = await response.json();
-  console.log(data);
-}
-
-callQuickNode();
+- name: Call QuickNode API
+  run: |
+    curl -X POST "$QUICKNODE_API_URL" \
+    -H "Content-Type: application/json" \
+    -d '{"data": "your_payload_here"}'
+  env:
+    QUICKNODE_API_URL: ${{ secrets.QUICKNODE_API_URL }}
